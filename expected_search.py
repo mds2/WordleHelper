@@ -9,7 +9,7 @@ def best_expected_guess(w):
         if score < best_score:
             best_score = score
             best_cand = cand
-    return (cand_cand, best_score)
+    return (best_cand, best_score)
 
 def expected_depth(w, guess):
     count = 0

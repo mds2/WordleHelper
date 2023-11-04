@@ -25,11 +25,6 @@ class WordleHelper:
                 self.cands2 = deepcopy(copyFrom.cands2)
             else:
                 self.cands2 = None
-            self.known = deepcopy(copyFrom.known)
-            self.present = deepcopy(copyFrom.present)
-            self.max_counts = deepcopy(copyFrom.max_counts)
-            self.elim = deepcopy(copyFrom.elim)
-            self.blocking = deepcopy(copyFrom.blocking)
             self.tree_search_cutoff = deepcopy(copyFrom.tree_search_cutoff)
             self.scorer = WordleHelper.Scorer()
             self.guess_history = deepcopy(copyFrom.guess_history)
@@ -51,35 +46,12 @@ class WordleHelper:
         self.cands = words
         self.guess_history = []
         self.cands2 = possible_words
-        self.known = [None for i in range(5)]
-        self.present = ""
-        self.max_counts = {}
-        self.elim = ""
-        self.blocking = [[] for i in range(5)]
         self.tree_search_cutoff = 2000
         self.scorer = WordleHelper.Scorer()
     def guess(self, guess, result):
         maxed = set()
         max_count = {}
         self.guess_history.append((guess, result))
-        for i in range(5):
-            if result[i] in 'gG':
-                self.known[i] = guess[i]
-                self.present += guess[i]
-                self.elim = "".join([c for c in self.elim if c != guess[i]])
-                max_count[guess[i]] = max_count.get(guess[i], 0) + 1
-            elif result[i] in 'yY':
-                self.present += guess[i]
-                self.blocking[i].append(guess[i])
-                self.elim = "".join([c for c in self.elim if c != guess[i]])
-                max_count[guess[i]] = max_count.get(guess[i], 0) + 1
-            else:
-                maxed.add(guess[i])
-                if not guess[i] in self.present:
-                    self.elim += guess[i]
-        for m in maxed:
-            if m in max_count:
-                self.max_counts[m] = max_count[m]
         self.filter_cands(guess, result)
     def get_opening_book(self):
         return { ('orate', '..y..'):'banal'
@@ -126,9 +98,11 @@ class WordleHelper:
         for k in guess_lists:
             summarize(k, guess_lists[k])
         book = self.get_opening_book()
-        if self.guess_history in book:
-            book_answer = book[self.guess_history]
-            print("Times wordlebot's guess in this condition: " + book_answer)
+        if len(self.guess_history) == 1:
+            if self.guess_history[0] in book:
+                book_answer = book[self.guess_history[0]]
+                print("Times wordlebot's guess in this condition: " +
+                      book_answer)
     def good_starting_words(self):
         return ['tarie', 'raise', 'serai', 'nares', 'tarse', 'rasen', 'saite',
                 'laser', 'reina', 'seral', 'taler', 'taise', 'laine', 'aries',

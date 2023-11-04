@@ -21,7 +21,7 @@ class WordleHelper:
         if copyFrom:
             from copy import deepcopy
             self.cands = deepcopy(copyFrom.cands)
-            if copyFrom.cands2:
+            if copyFrom.cands2 is not None:
                 self.cands2 = deepcopy(copyFrom.cands2)
             else:
                 self.cands2 = None
@@ -32,6 +32,7 @@ class WordleHelper:
             self.blocking = deepcopy(copyFrom.blocking)
             self.tree_search_cutoff = deepcopy(copyFrom.tree_search_cutoff)
             self.scorer = WordleHelper.Scorer()
+            self.guess_history = deepcopy(copyFrom.guess_history)
         else:
             try:
                 self.resetRealDict()
@@ -48,6 +49,7 @@ class WordleHelper:
                     open("wordle-words/wordle-Ta.txt").readlines()])
     def reset(self, words, possible_words=None):
         self.cands = words
+        self.guess_history = []
         self.cands2 = possible_words
         self.known = [None for i in range(5)]
         self.present = ""
@@ -59,6 +61,7 @@ class WordleHelper:
     def guess(self, guess, result):
         maxed = set()
         max_count = {}
+        self.guess_history.append((guess, result))
         for i in range(5):
             if result[i] in 'gG':
                 self.known[i] = guess[i]
@@ -77,7 +80,10 @@ class WordleHelper:
         for m in maxed:
             if m in max_count:
                 self.max_counts[m] = max_count[m]
-        self.filter_cands()
+        self.filter_cands(guess, result)
+    def get_opening_book(self):
+        return { ('orate', '..y..'):'banal'
+                 }
     def cautious_guesses(self):
         from absurdle_search import do_search
         for depth in range(1,5):
@@ -103,7 +109,7 @@ class WordleHelper:
         cautions = self.cautious_guesses()
         broad = len(self.cands) > 10
         guess_lists = {
-            "cautious": cautions[1],
+            "cautious, depth=" + str(cautions[0]): cautions[1],
             "worst_case": self.suggest_guesses(broad=broad, num=num,
                                                force_new=True,
                                                by_worst_case=True),
@@ -119,6 +125,10 @@ class WordleHelper:
                            word in self.cands)))
         for k in guess_lists:
             summarize(k, guess_lists[k])
+        book = self.get_opening_book()
+        if self.guess_history in book:
+            book_answer = book[self.guess_history]
+            print("Times wordlebot's guess in this condition: " + book_answer)
     def good_starting_words(self):
         return ['tarie', 'raise', 'serai', 'nares', 'tarse', 'rasen', 'saite',
                 'laser', 'reina', 'seral', 'taler', 'taise', 'laine', 'aries',
@@ -143,10 +153,10 @@ class WordleHelper:
                 'doric', 'mourn', 'corny', 'bruin', 'round', 'horny', 'crony',
                 'goric', 'rundi', 'coiny', 'bourn', 'corgi', 'myron', 'drony',
                 'duroc', 'cordy']
-    def filter_cands(self):
-        self.cands = [c for c in self.cands if self.plausible(c)]
+    def filter_cands(self, guess, result):
+        self.cands = [c for c in self.cands if WordleHelper.what_if(c, guess) == result]
         if self.cands2:
-            self.cands2 = [c for c in self.cands2 if self.plausible(c)]
+            self.cands2 = [c for c in self.cands2 if WordleHelper.what_if(c, guess) == result]
     def likely_colors(self, guess):
         counts = {}
         for w in self.cands:
@@ -201,30 +211,11 @@ class WordleHelper:
             if results[k] > worst_score:
                 worst_score = results[k]
         return worst_score
-    def plausible(self, word):
-        for i in range(5):
-            if self.known[i] and self.known[i] != word[i]:
-                return False
-            if word[i] in self.blocking[i]:
-                return False
-        for c in self.present:
-            if not c in word:
-                return False
-        for c in self.elim:
-            if c in word:
-                return False
-        histo = {}
-        for c in word:
-            histo[c] = histo.get(c, 0) + 1
-        for c in histo:
-            if c in self.max_counts and histo[c] != self.max_counts[c]:
-                return False
-        return True
     def count_in(word, letter):
         return len([c for c in word if c == letter])
     def what_if(truth, guess):
         """
-        Returns what sequence of colors Worlde would give
+        Returns what sequence of colors Wordle would give
         if the true word were truth, and the guess were guess
         """
         accum = []

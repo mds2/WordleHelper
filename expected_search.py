@@ -1,5 +1,14 @@
 from WordleHelper import *
 
+def get_cached_results():
+    """
+    Sometimes this stuff takes a long time to run.
+    """
+    return {(('orate', '..g.g')): ('spale', 3.119047619047619),
+            (('orate', '..g.y')): ('leash', 'leach', 2.272727272727273),
+            (('orate', '..gyy')): ('leant', 2.4166666666666665),
+            (('orate', '.g..y')): ('cried', 2.68)}
+
 def best_expected_guess(w):
     best_score = 100
     best_cand = ""

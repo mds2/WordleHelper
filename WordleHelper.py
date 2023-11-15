@@ -54,7 +54,12 @@ class WordleHelper:
         self.guess_history.append((guess, result))
         self.filter_cands(guess, result)
     def get_opening_book(self):
-        return { ('orate', '..y..'):'banal'
+        return { ('orate', '..y..'):'banal',
+                 ('orate', '...y.'): 'shunt',
+                 ('orate', '..g.g'): 'scale',
+                 ('orate', '..g.y'): 'leash',
+                 ('orate', '..gyy'): 'leant',
+                 ('orate', '.g..y'): 'freed'
                  }
     def cautious_guesses(self):
         from absurdle_search import do_search
@@ -63,7 +68,7 @@ class WordleHelper:
                              target_depth = depth)
             if len(sols) > 0:
                 return (depth, list(set([s[0] for s in sols])))
-        return []
+        return [5, []]
     def suggest_guesses(self, broad=False, num=30, force_new=False,
                         by_worst_case=False):
         unsorted = self.cands

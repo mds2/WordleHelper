@@ -4,7 +4,7 @@ class WordleHelper:
     To use:
     import WordleHelper
     w = WordleHelper.WordleHelper()
-    w.suggest_guesses()
+    w.strat_summary() # suggests different kinds of guesses
     w.guess("atone", "....y")
     """
     class Scorer:
@@ -59,7 +59,8 @@ class WordleHelper:
                  ('orate', '..g.g'): 'scale',
                  ('orate', '..g.y'): 'leash',
                  ('orate', '..gyy'): 'leant',
-                 ('orate', '.g..y'): 'freed'
+                 ('orate', '.g..y'): 'freed',
+                 ('orate', '.g.y.'): 'trips',
                  }
     def cautious_guesses(self):
         from absurdle_search import do_search
@@ -79,10 +80,13 @@ class WordleHelper:
         if by_worst_case:
             sort_key = lambda g: self.worst_case_remaining(g)
         if len(self.cands) < self.tree_search_cutoff or force_new:
-            print("Using new branch of code")
             guesses = sorted(guesses, key = sort_key)
         return guesses[:num]
     def strat_summary(self, num=5):
+        if len(self.guess_history) == 0:
+            print("""Good first guesses include 'orate', 'irate',
+                     'least', and 'slate'""")
+            return
         cautions = self.cautious_guesses()
         broad = len(self.cands) > 10
         guess_lists = {

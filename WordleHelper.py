@@ -61,6 +61,7 @@ class WordleHelper:
                  ('orate', '..gyy'): 'leant',
                  ('orate', '.g..y'): 'freed',
                  ('orate', '.g.y.'): 'trips',
+                 ('orate', '....g'): 'singe',
                  }
     def cautious_guesses(self):
         from absurdle_search import do_search

@@ -8,7 +8,7 @@ def get_cached_results():
             (('orate', '..g.y')): ('leash', 'leach', 2.272727272727273),
             (('orate', '..gyy')): ('leant', 2.4166666666666665),
             (('orate', '.g..y')): ('cried', 2.68),
-            (('orate', '.g.y.')): ('trips', 2.3125)
+            (('orate', '.g.y.')): ('trips', 2.3125),
             (('orate', '.yyy.')): ('satyr', 'strap', 'sprat', 'tarry',
                                    'tayra', 2.111111111111111)}
 

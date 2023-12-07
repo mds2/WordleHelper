@@ -62,6 +62,17 @@ class WordleHelper:
                  ('orate', '.g..y'): 'freed',
                  ('orate', '.g.y.'): 'trips',
                  ('orate', '....g'): 'singe',
+                 ('orate', '....y'): 'lined',
+                 ('orate', 'yy.y.'): 'short',
+                 ('orate', 'y....'): 'colon',
+                 ('orate', '..yy.'): 'taint',
+                 ('orate', 'y...g'): 'close',
+                 ('orate', '.....'): 'slick',
+                 ('orate', '.y..y'): 'rider',
+                 ('orate', '..yyy'): 'cleat',
+                 ('orate', '..gy.'): 'slant',
+                 ('orate', 'y....'): 'colon',
+                 ('orate', 'y.y..'): 'macon',
                  }
     def cautious_guesses(self):
         from absurdle_search import do_search

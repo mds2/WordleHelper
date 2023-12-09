@@ -22,6 +22,7 @@ def get_cached_results():
             (('orate', '..yyy'),): ('cleat', 2.6),
             (('orate', '..gy.'),): ('plait', 'clast', 2.5652173913043477),
             (('orate', 'y.y..'),): ('macon', 2.5416666666666665),
+            (('orate', '.yg..'),): ('chard', 2.5789473684210527),
             }
 
 def best_expected_guess(w):

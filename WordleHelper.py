@@ -73,6 +73,7 @@ class WordleHelper:
                  ('orate', '..gy.'): 'slant',
                  ('orate', 'y....'): 'colon',
                  ('orate', 'y.y..'): 'macon',
+                 ('orate', '.yg..'): 'chard',
                  }
     def cautious_guesses(self):
         from absurdle_search import do_search
@@ -124,6 +125,22 @@ class WordleHelper:
                 book_answer = book[self.guess_history[0]]
                 print("Times wordlebot's guess in this condition: " +
                       book_answer)
+        from expected_search import get_cached_results, best_expected_guess
+        cached = get_cached_results()
+        if tuple(self.guess_history) in cached:
+            best_guess = cached[tuple(self.guess_history)]
+            print("Best expected depth is " + str(best_guess[-1]) +
+                  " and can be achieved with these words :: " +
+                  ", ".join(best_guess[:-1]))
+        elif len(self.cands+self.cands2) < 20: # magic number : play with this
+            best_guess = best_expected_guess(self)
+            from expected_search import expected_depth
+            best_guesses = [c for c in self.cands+self.cands2
+                            if expected_depth(self, c) <=
+                            best_guess[-1] + 1.0e-4]
+            print("Best expected depth is " + str(best_guess[-1]) +
+                  " and can be achieved with these words :: " +
+                  ", ".join(best_guesses))
     def good_starting_words(self):
         return ['tarie', 'raise', 'serai', 'nares', 'tarse', 'rasen', 'saite',
                 'laser', 'reina', 'seral', 'taler', 'taise', 'laine', 'aries',

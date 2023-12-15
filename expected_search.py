@@ -23,6 +23,9 @@ def get_cached_results():
             (('orate', '..gy.'),): ('plait', 'clast', 2.5652173913043477),
             (('orate', 'y.y..'),): ('macon', 2.5416666666666665),
             (('orate', '.yg..'),): ('chard', 2.5789473684210527),
+            (('orate', '..g..'),): ('clans', 2.7746478873239435),
+            (('orate', '...yg'),): ('thine, tuile', 2.3529411764705883),
+            (('orate', '...yy'),): ('sleet', 2.5357142857142856),
             }
 
 def best_expected_guess(w):

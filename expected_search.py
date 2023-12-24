@@ -26,6 +26,9 @@ def get_cached_results():
             (('orate', '..g..'),): ('clans', 2.7746478873239435),
             (('orate', '...yg'),): ('thine, tuile', 2.3529411764705883),
             (('orate', '...yy'),): ('sleet', 2.5357142857142856),
+            (('orate', '.....'),): ('slink', 2.8923076923076922),
+            (('orate', '...y.'),): ('snift', 2.6984126984126986),
+            (('orate', 'y..y.'),): ('point', 2.7083333333333335),
             }
 
 def best_expected_guess(w):

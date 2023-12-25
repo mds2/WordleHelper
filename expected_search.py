@@ -29,6 +29,7 @@ def get_cached_results():
             (('orate', '.....'),): ('slink', 2.8923076923076922),
             (('orate', '...y.'),): ('snift', 2.6984126984126986),
             (('orate', 'y..y.'),): ('point', 2.7083333333333335),
+            (('orate', '.gg.g'),): ('crave', 3.066666666666667),
             }
 
 def best_expected_guess(w):

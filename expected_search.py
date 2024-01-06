@@ -30,12 +30,18 @@ def get_cached_results():
             (('orate', '...y.'),): ('snift', 2.6984126984126986),
             (('orate', 'y..y.'),): ('point', 2.7083333333333335),
             (('orate', '.gg.g'),): ('crave', 3.066666666666667),
+            (('orate', '..y..'),): ('canal', 2.7410714285714284),
+            (('orate', '.yg.y'),): ('leary', 2.3),
+            (('orate', '..yg.'),): ('tacts', 2.7777777777777777),
+            (('orate', '.yy..'),): ('carpi', 2.630434782608696),
+            (('orate', '.y.y.'),): ('shirt', 'hurst', 2.0),
+            (('orate', '..y.g'),): ('angle', 2.8666666666666667),
             }
 
-def best_expected_guess(w):
+def best_expected_guess(w, use_cached=True):
     best_score = 100
-    best_cand = ""
-    if len(w.guess_history) < 2:
+    best_cand = [""]
+    if use_cached and len(w.guess_history) < 2:
         book = get_cached_results()
         if tuple(w.guess_history) in book:
             return book[tuple(w.guess_history)]
@@ -44,8 +50,10 @@ def best_expected_guess(w):
         score = expected_depth(w, cand)
         if score < best_score:
             best_score = score
-            best_cand = cand
-    return (best_cand, best_score)
+            best_cand = [cand]
+        elif score == best_score:
+            best_cand.append(cand)
+    return tuple(best_cand + [best_score])
 
 def expected_depth(w, guess):
     count = 0

@@ -77,6 +77,7 @@ class WordleHelper:
                  ('orate', '..g..'): 'clans',
                  ('orate', '...yg'): 'thine',
                  ('orate', '...yy'): 'sleet',
+                 ('orate', '..y.g'): 'sable',
                  }
     def cautious_guesses(self):
         from absurdle_search import do_search

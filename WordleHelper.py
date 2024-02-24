@@ -103,6 +103,10 @@ class WordleHelper:
         if len(self.guess_history) == 0:
             print("""Good first guesses include 'orate', 'irate',
                      'least', and 'slate'""")
+            print("""If you expect the Times to start with slate, or least,
+                     pick orate, if you expect trope, pick roate,
+                     if you expect plate, try slate.
+                     Yes, this is a bit of a rock-paper-scissors game""")
             return
         cautions = self.cautious_guesses()
         broad = len(self.cands) > 10
@@ -136,7 +140,7 @@ class WordleHelper:
             print("Best expected depth is " + str(best_guess[-1]) +
                   " and can be achieved with these words :: " +
                   ", ".join(best_guess[:-1]))
-        elif len(self.cands+self.cands2) < 20: # magic number : play with this
+        elif len(self.cands+self.cands2) < 40: # magic number : play with this
             best_guess = best_expected_guess(self)
             from expected_search import expected_depth
             best_guesses = [c for c in self.cands+self.cands2
@@ -145,30 +149,31 @@ class WordleHelper:
             print("Best expected depth is " + str(best_guess[-1]) +
                   " and can be achieved with these words :: " +
                   ", ".join(best_guesses))
-    def good_starting_words(self):
-        return ['tarie', 'raise', 'serai', 'nares', 'tarse', 'rasen', 'saite',
-                'laser', 'reina', 'seral', 'taler', 'taise', 'laine', 'aries',
-                'leora', 'sinae', 'ariel', 'retia', 'arise', 'ratel', 'solea',
-                'later', 'serta', 'marie', 'terna', 'strae', 'artie', 'snare',
-                'teras', 'slare']
-    def broad_starting_gambles(self):
-        return ['reina', 'irena', 'erian', 'norie', 'oared', 'irone', 'redia',
-                'ocrea', 'manei', 'aider', 'kioea', 'heiau', 'oread', 'paeon',
-                'opera', 'oaken', 'niepa', 'cameo', 'eniac', 'ocean', 'kenai',
-                'genoa', 'idean', 'vinea', 'bohea', 'xenia', 'neoza', 'howea',
-                'obeah', 'ozena']
-    def interesting_starting_gambles(self):
-        return ['noria', 'arion', 'cairo', 'oaric', 'haori', 'radio', 'doria',
-                'nahor', 'norah', 'iroha', 'aroid', 'rohan', 'naomi', 'danio',
-                'doina', 'donia', 'acoin', 'oncia', 'gonia', 'omina', 'konia',
-                'inoma', 'adion', 'nogai', 'amino', 'audio', 'ikona', 'iowan',
-                'honda', 'axion']
-    def riskier_starting_gambles(self):
-        return ['corin', 'morin', 'noric', 'irony', 'minor', 'curio', 'biron',
-                'curin', 'robin', 'groin', 'yourn', 'cornu', 'runic', 'burin',
-                'doric', 'mourn', 'corny', 'bruin', 'round', 'horny', 'crony',
-                'goric', 'rundi', 'coiny', 'bourn', 'corgi', 'myron', 'drony',
-                'duroc', 'cordy']
+    def compare_guesses(self, g1, g2):
+        """ Counts the fraction of remaining words for which guessing g1
+            yields fewer remaining possibilities than guessing g2
+        """
+        d1 = dict(self.likely_colors(g1))
+        d2 = dict(self.likely_colors(g2))
+        wins = ties = losses = 0
+        for c in self.cands:
+            count1 = d1[WordleHelper.what_if(c, g1)]
+            count2 = d2[WordleHelper.what_if(c, g2)]
+            wins += (count1 < count2)
+            ties += (count1 == count2)
+            losses += (count1 > count2)
+        return (wins + 0.5 * ties)/(wins + ties + losses)
+    def best_against(self, opposing_guess):
+        best_guess = ""
+        best_score = 0.0
+        for guess in self.cands+self.cands2:
+            score = self.compare_guesses(guess, opposing_guess)
+            if score > best_score:
+                print("Guessing " + str(guess) + " gives a score of " +
+                      str(score))
+                best_score = score
+                best_guess = guess
+        return best_guess
     def filter_cands(self, guess, result):
         self.cands = [c for c in self.cands if WordleHelper.what_if(c, guess) == result]
         if self.cands2:

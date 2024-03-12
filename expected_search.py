@@ -76,6 +76,9 @@ def get_cached_results():
             (('slate', 'g...g'),): ('shine', 2.75),
             (('slate', '..y.g'),): ('range', 'marge', 'ragde', 2.7419354838709675),
             (('slate', '.yy.y'),): ('pedal', 2.6451612903225805),
+            (('slate', '..g.g'),): ('crave', 2.857142857142857),
+            (('slate', '.g..g'),): ('eloge', 'globe', 'glove', 2.6153846153846154),
+            (('slate', 'y.g..'),): ('crags', 2.230769230769231),
             }
 
 def best_expected_guess(w, use_cached=True):

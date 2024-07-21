@@ -82,6 +82,11 @@ def get_cached_results():
             (('slate', 'y...y'),): ('rohes', 'roues', 2.263157894736842),
             (('slate', '.y.yy'),): ('tweel', 2.2),
             (('slate', 'g.y.y'),): ('sneap', 'spean', 'spear', 'speak', 'sewan', 2.5),
+            (('slate', 'g...y'),): ('speer', 'sheer', 'spier', 'sheen', 2.5357142857142856),
+            (('slate', 'y..y.'),): ('trois', 'frost', 2.4583333333333335),
+            (('slate', 'g.g..'),): ('scamp', 2.608695652173913),
+            (('slate', '..yyy'),): ('acted', 2.72),
+            (('slate', 'g.gy.'),): ('starn', 'stank', 'stark', 'stand', 'scart', 2.7857142857142856),
             }
 
 def best_expected_guess(w, use_cached=True):

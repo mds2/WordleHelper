@@ -1,3 +1,4 @@
+from math import log # boring, would rather use numpy
 
 class WordleHelper:
     """
@@ -93,7 +94,7 @@ class WordleHelper:
         if broad and self.cands2:
             unsorted = unsorted + self.cands2
         guesses = sorted(unsorted, key = self.scorer.score)
-        sort_key = lambda g: self.expected_remaining(g)
+        sort_key = lambda g: -self.bits_gained(g)
         if by_worst_case:
             sort_key = lambda g: self.worst_case_remaining(g)
         if len(self.cands) < self.tree_search_cutoff or force_new:
@@ -115,13 +116,15 @@ class WordleHelper:
             "worst_case": self.suggest_guesses(broad=broad, num=num,
                                                force_new=True,
                                                by_worst_case=True),
-            "expected": self.suggest_guesses(broad=broad, num=num,
+            "bits_gained": self.suggest_guesses(broad=broad, num=num,
                                              force_new=True,
                                              by_worst_case=False)}
         def summarize(label, data):
             print(label)
             for word in data:
-                print(str((word, self.expected_remaining(word),
+                print(str((word,
+                           f"{self.bits_gained(word):.2f} bits",
+                           self.expected_remaining(word),
                            self.likely_colors(word)[:2],
                            (word in cautions[1]),
                            word in self.cands)))
@@ -193,6 +196,18 @@ class WordleHelper:
             results[k] = results.get(k, 0) + 1
             total += 1
         return sum([results[k] * results[k] for k in results]) / total
+    def bits_gained(self, guess):
+        baseline = log(len(self.cands))/log(2)
+        results = {}
+        total = 0
+        for truth in self.cands:
+            k = WordleHelper.what_if(truth, guess)
+            results[k] = results.get(k, 0) + 1
+            total += 1
+        bits_expected = sum(
+            [log(results[k]) * results[k] for k in results]
+        ) / (log(2) * total)
+        return baseline - bits_expected
     def win_ratio(self, guess1, guess2):
         cols1 = dict(self.likely_colors(guess1))
         cols2 = dict(self.likely_colors(guess2))

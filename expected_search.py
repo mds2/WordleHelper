@@ -87,6 +87,9 @@ def get_cached_results():
             (('slate', 'g.g..'),): ('scamp', 2.608695652173913),
             (('slate', '..yyy'),): ('acted', 2.72),
             (('slate', 'g.gy.'),): ('starn', 'stank', 'stark', 'stand', 'scart', 2.7857142857142856),
+            (('slate', '.yy.g'),): ('pagle', 2.5625),
+            (('slate', 'y...g'),): ('nurse', 'purse', 2.7037037037037037),
+            (('slate', 'g.g.g'),): ('spare', 'spade', 3.1538461538461537),
             (('ayrie', 'y....'),): ('clans', 2.953216374269006),
             (('ayrie', '.....'),): ('sculp', 2.8518518518518516),
             (('ayrie', '....y'),): ('sleet', 2.786764705882353),
@@ -99,6 +102,7 @@ def get_cached_results():
             (('ayrie', '...yy'),): ('pined', 'lined', 2.5),
             (('ayrie', '...g.'),): ('colin', 'cutin', 'uplit', 2.6458333333333335),
             (('ayrie', 'y..g.'),): ('cabin', 'panic', 'patin', 2.566666666666667),
+            (('ayrie', 'yyg..'),): ('party', 2.4166666666666665),
             (('ayrie', '..yy.'),): ('skirt', 'spirt', 2.727272727272727),
             (('ayrie', '.y..y'),): ('onely', 'yelts', 2.823529411764706),
             (('ayrie', '..y.g'),): ('trope', 2.85),
@@ -109,6 +113,8 @@ def get_cached_results():
             (('ayrie', '.y...'),): ('godly', 3.0833333333333335),
             (('ayrie', 'y.y.y'),): ('recal', 3.2419354838709675),
             (('ayrie', '..yyy'),): ('riped', 3.1777777777777776),
+            (('ayrie', 'y.y.g'),): ('crate', 'trace', 3.1785714285714284),
+            (('ayrie', '..g.g'),): ('serve', 'verse', 'scree', 'spree', 'perse', 'herse', 2.76),
             (('plate', '.....'),): ('coirs', 2.9137254901960783),
             (('plate', '....y'),): ('diner', 3.011173184357542),
             (('plate', '..y..'),): ('caron', 2.7891156462585034),
@@ -127,6 +133,7 @@ def get_cached_results():
             (('plate', '..g.g'),): ('crave', 3.1052631578947367),
             (('plate', 'y....'),): ('crisp', 2.4473684210526314),
             (('plate', '..gy.'),): ('scart', 2.4705882352941178),
+            (('plate', '.y..g'),): ('bilge', 'liege', 'bugle', 'bulse', 'belie', 'ruble', 2.56),
             }
 
 def best_expected_guess(w, use_cached=True):

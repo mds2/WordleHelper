@@ -89,17 +89,23 @@ class WordleHelper:
                 return (depth, list(set([s[0] for s in sols])))
         return [5, []]
     def suggest_guesses(self, broad=False, num=30, force_new=False,
-                        by_worst_case=False):
+                        by_worst_case=False, easy_mode=False):
         unsorted = self.cands
         if broad and self.cands2:
             unsorted = unsorted + self.cands2
-        guesses = sorted(unsorted, key = self.scorer.score)
+        if easy_mode:
+            tmp = WordleHelper()
+            guesses = tmp.cands
+        else:
+            guesses = sorted(unsorted, key = self.scorer.score)
         sort_key = lambda g: -self.bits_gained(g)
         if by_worst_case:
             sort_key = lambda g: self.worst_case_remaining(g)
         if len(self.cands) < self.tree_search_cutoff or force_new:
             guesses = sorted(guesses, key = sort_key)
         return guesses[:num]
+    def best_on_easy(self, num:int=5):
+        return self.suggest_guesses(num=num, force_new=True, easy_mode=True)
     def strat_summary(self, num=5):
         if len(self.guess_history) == 0:
             print("""Good first guesses include 'orate', 'irate',

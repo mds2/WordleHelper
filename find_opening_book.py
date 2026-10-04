@@ -29,9 +29,9 @@ if __name__ == "__main__":
     to_try = w.likely_colors(args.guess)
     to_try = [t for t in to_try if t[1] >= 30]
     to_try = to_try[args.skip:]
-    print(f"Likely colors are {to_try}")
+    print(f"Likely colors for guess {args.guess} are {to_try}")
     if args.multiprocess:
-        with Pool(3) as pool:
+        with Pool(7) as pool:
             print(pool.map(explore,
                            [(args.guess, colors[0]) for colors in to_try]))
     else:
